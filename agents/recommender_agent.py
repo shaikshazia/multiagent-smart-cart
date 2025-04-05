@@ -1,5 +1,7 @@
 # agents/recommender_agent.py
 
+import streamlit as st
+
 class RecommenderAgent:
     def __init__(self, products_db):
         self.products = products_db
@@ -8,9 +10,21 @@ class RecommenderAgent:
         # Dummy logic: recommend first 3 items
         return self.products[:3]
 
-# Example usage
-if __name__ == "__main__":
-    products = ["Shoes", "Bag", "Watch", "Headphones"]
-    user = {"interests": ["fashion", "gadgets"]}
+# Streamlit UI
+st.title("🛒 Multi-Agent Smart Cart Recommender")
+st.write("Enter your interests and get product recommendations:")
+
+# Sample product database
+products = ["Shoes", "Bag", "Watch", "Headphones", "Sunglasses", "Wallet", "Perfume"]
+
+# User input
+interests = st.text_input("What are your interests? (e.g., fashion, gadgets)")
+
+if interests:
+    user = {"interests": interests.split(",")}
     agent = RecommenderAgent(products)
-    print("Recommended:", agent.recommend(user))
+    recommendations = agent.recommend(user)
+    
+    st.subheader("🔮 Recommended Products:")
+    for item in recommendations:
+        st.write(f"- {item}")
