@@ -10,6 +10,7 @@ class RecommenderAgent:
         filtered_products = []
         for product in self.products:
             for interest in user_profile['interests']:
+                st.write(f"Checking if '{interest.lower()}' is in '{product.lower()}'")  # Debugging line
                 if interest.lower() in product.lower():
                     filtered_products.append(product)
                     break  # Once we find a match for an interest, no need to check further for that product
@@ -38,4 +39,3 @@ if interests:
     st.subheader("🔮 Recommended Products:")
     for item in recommendations:
         st.write(f"- {item}")
-
