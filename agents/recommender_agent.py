@@ -6,15 +6,19 @@ class RecommenderAgent:
         self.products = products_db
 
     def recommend(self, user_profile):
-        # Filter products based on user interests (case-insensitive)
-        filtered_products = [product for product in self.products if any(interest.lower() in product.lower() for interest in user_profile['interests'])]
+        # Create a list of matching products
+        filtered_products = []
+        for product in self.products:
+            for interest in user_profile['interests']:
+                if interest.lower() in product.lower():
+                    filtered_products.append(product)
+                    break  # Once we find a match for an interest, no need to check further for that product
         
         # If no products match, return a default message
         if not filtered_products:
             return ["Sorry, no products found based on your interests."]
         
-        # Return all matched products, or limit to top 5 if you want to cap it
-        return filtered_products  # Or filtered_products[:5] to limit to top 5
+        return filtered_products
 
 # Streamlit UI
 st.title("🛒 Multi-Agent Smart Cart Recommender")
@@ -34,3 +38,4 @@ if interests:
     st.subheader("🔮 Recommended Products:")
     for item in recommendations:
         st.write(f"- {item}")
+
