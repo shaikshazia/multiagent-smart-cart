@@ -13,8 +13,8 @@ class RecommenderAgent:
         if not filtered_products:
             return ["Sorry, no products found based on your interests."]
         
-        # Recommend first 3 products (or all if fewer)
-        return filtered_products[:3]
+        # Return all matched products, or limit to top 5 if you want to cap it
+        return filtered_products  # Or filtered_products[:5] to limit to top 5
 
 # Streamlit UI
 st.title("🛒 Multi-Agent Smart Cart Recommender")
