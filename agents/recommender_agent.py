@@ -6,10 +6,14 @@ class RecommenderAgent:
         self.products = products_db
 
     def recommend(self, user_profile):
-        # Filter products based on user interests
+        # Filter products based on user interests (case-insensitive)
         filtered_products = [product for product in self.products if any(interest.lower() in product.lower() for interest in user_profile['interests'])]
         
-        # Dummy logic: recommend first 3 filtered products
+        # If no products match, return a default message
+        if not filtered_products:
+            return ["Sorry, no products found based on your interests."]
+        
+        # Recommend first 3 products (or all if fewer)
         return filtered_products[:3]
 
 # Streamlit UI
@@ -22,20 +26,11 @@ products = ["Shoes", "Bag", "Watch", "Headphones", "Sunglasses", "Wallet", "Perf
 # User input
 interests = st.text_input("What are your interests? (e.g., fashion, gadgets)")
 
-if not interests:
-    st.write("Please enter your interests to get recommendations.")
-else:
+if interests:
     user = {"interests": interests.split(",")}
     agent = RecommenderAgent(products)
     recommendations = agent.recommend(user)
     
-    if recommendations:
-        st.subheader("🔮 Recommended Products:")
-        for item in recommendations:
-            st.write(f"- {item}")
-    else:
-        st.write("Sorry, no products found based on your interests.")
-    
-    # Option to clear input
-    if st.button("Clear"):
-        interests = ""
+    st.subheader("🔮 Recommended Products:")
+    for item in recommendations:
+        st.write(f"- {item}")
