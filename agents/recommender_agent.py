@@ -1,4 +1,5 @@
 # agents/recommender_agent.py
+
 import streamlit as st
 
 class RecommenderAgent:
@@ -10,6 +11,7 @@ class RecommenderAgent:
         filtered_products = []
         for product in self.products:
             for interest in user_profile['interests']:
+                interest = interest.strip()  # Strip spaces from the interest
                 st.write(f"Checking if '{interest.lower()}' is in '{product.lower()}'")  # Debugging line
                 if interest.lower() in product.lower():
                     filtered_products.append(product)
